@@ -1,5 +1,7 @@
 import requests
 import ast
+import json
+import loguru
 
 
 def fetch_landing_html():
@@ -14,11 +16,28 @@ def fetch_landing_html():
 
 def fetch_2nd_stage(form_data):
     reqUrl = "https://alunos.uminho.pt/pt/estudantes/paginas/infouteishorarios.aspx"
-
-    headersList = {"Content-Type": "application/x-www-form-urlencoded"}
-
-    response = requests.request("POST", reqUrl,headers=headersList,files=form_data)
-    return response.text
+    headersList = {
+        "Host": "alunos.uminho.pt",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Length": "66393",
+        "Origin": "https://alunos.uminho.pt",
+        "Connection": "keep-alive",
+        "Referer": "https://alunos.uminho.pt/pt/estudantes/paginas/infouteishorarios.aspx",
+        "Cookie": "_ga=GA1.2.702951698.1636131350; WSS_FullScreenMode=false; _gid=GA1.2.1773103556.1666009611",
+        "Upgrade-Insecure-Requests": "1",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-User": "?1",
+        "Pragma": "no-cache",
+        "Cache-Control": "no-cache",
+    }
+    response = requests.post( reqUrl, headers=headersList, files=form_data)
+    return response
 
 
 def fetch_time_sheet_html(form_data):
@@ -54,4 +73,4 @@ def fetch_time_sheet_html(form_data):
 
 
 if __name__ == "__main__":
-    print(fetch_landing_html())
+    print(fetch_2nd_stage())
